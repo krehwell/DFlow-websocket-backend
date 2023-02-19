@@ -51,11 +51,15 @@ io.on("connection", (socket: ISocket) => {
 
         // let the user know his own data
         socket.emit("get-profile", { user: newUser });
+
+        socket.broadcast.emit("join", { user: newUser });
     });
 
     socket.on("disconnect", () => {
         const user: IUser = { username: socket.username as string, id: socket.id };
         users.removeUser(user);
+
+        socket.broadcast.emit("left", { user });
     });
 
     socket.on("send-message", ({ message }: { message: string }) => {
