@@ -18,6 +18,10 @@ io.on("connection", (socket: ISocket) => {
         socket.username = username;
         console.log("someone joined", username);
     });
+
+    socket.on("disconnect", () => {
+        console.log(`${socket.username} has left the chat`);
+    });
 });
 
 server.listen(PORT, () => {
