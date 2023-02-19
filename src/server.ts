@@ -21,6 +21,14 @@ class Users {
         this.users = [];
     }
 
+    public getUsers() {
+        return this.users;
+    }
+
+    public getUserById(id: string) {
+        return this.users.find(user => user.id === id);
+    }
+
     public addUser(user: IUser) {
         console.log(user.username, "has joined the chat");
         this.users.push(user);
@@ -36,15 +44,23 @@ const users = new Users();
 
 // SOCKET HANDLER
 io.on("connection", (socket: ISocket) => {
-    socket.on("join", ({ username }) => {
+    socket.on("join", ({ username }: { username: string }) => {
         socket.username = username;
         const newUser: IUser = { username, id: socket.id };
         users.addUser(newUser);
+
+        // let the user know his own data
+        socket.emit("get-profile", { user: newUser });
     });
 
     socket.on("disconnect", () => {
         const user: IUser = { username: socket.username as string, id: socket.id };
         users.removeUser(user);
+    });
+
+    socket.on("send-message", ({ message }: { message: string }) => {
+        const sender = users.getUserById(socket.id);
+        io.emit("new-message", { message, user: sender });
     });
 });
 

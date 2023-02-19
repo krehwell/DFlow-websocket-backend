@@ -9,3 +9,8 @@ export interface IUser {
     username: string;
     isTyping?: boolean;
 }
+
+export interface IUserWithMessage {
+    user: IUser;
+    message: string;
+}
