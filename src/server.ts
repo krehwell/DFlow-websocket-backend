@@ -44,6 +44,10 @@ const users = new Users();
 
 // SOCKET HANDLER
 io.on("connection", (socket: ISocket) => {
+    const emitWhoIsOnline = () => {
+        io.emit("who-is-online", { users: users.getUsers() });
+    };
+
     socket.on("join", ({ username }: { username: string }) => {
         socket.username = username;
         const newUser: IUser = { username, id: socket.id };
@@ -53,6 +57,7 @@ io.on("connection", (socket: ISocket) => {
         socket.emit("get-profile", { user: newUser });
 
         socket.broadcast.emit("join", { user: newUser });
+        emitWhoIsOnline();
     });
 
     socket.on("disconnect", () => {
@@ -60,6 +65,7 @@ io.on("connection", (socket: ISocket) => {
         users.removeUser(user);
 
         socket.broadcast.emit("left", { user });
+        emitWhoIsOnline();
     });
 
     socket.on("send-message", ({ message }: { message: string }) => {
