@@ -1,7 +1,7 @@
 # Web Socket
 
-Frontend Repo: https://github.com/krehwell/DFlow-websocket-frontend
-Backend Repo: https://github.com/krehwell/DFlow-websocket-backend
+- Frontend Repo: https://github.com/krehwell/DFlow-websocket-frontend
+- Backend Repo: https://github.com/krehwell/DFlow-websocket-backend
 
 Start server with `yarn dev` and navigate to `localhost:5000`
 
