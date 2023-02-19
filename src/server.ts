@@ -10,16 +10,16 @@ const server = http.createServer(app);
 const io = new Server(server, { cors: { origin: "*" } });
 
 app.get("/", (_req: Request, res: Response) => {
-  res.json({ status: 200, message: "Server is running" });
+    res.json({ status: 200, message: "Server is running" });
 });
 
 io.on("connection", (socket: ISocket) => {
-  socket.on("join", ({ username }) => {
-    socket.username = username;
-    console.log("someone joined", username);
-  });
+    socket.on("join", ({ username }) => {
+        socket.username = username;
+        console.log("someone joined", username);
+    });
 });
 
 server.listen(PORT, () => {
-  console.log(`listening on http://localhost:${PORT}`);
+    console.log(`listening on http://localhost:${PORT}`);
 });
