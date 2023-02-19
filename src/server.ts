@@ -29,13 +29,19 @@ class Users {
         return this.users.find(user => user.id === id);
     }
 
+    public modfiyUserById(id: string, data: Partial<IUser>) {
+        const user = this.getUserById(id);
+
+        if (user) {
+            Object.assign(user, data);
+        }
+    }
+
     public addUser(user: IUser) {
-        console.log(user.username, "has joined the chat");
         this.users.push(user);
     }
 
     public removeUser(user: IUser) {
-        console.log(user.username, "has left the chat");
         this.users = this.users.filter(u => u.id !== user.id);
     }
 }
@@ -71,6 +77,16 @@ io.on("connection", (socket: ISocket) => {
     socket.on("send-message", ({ message }: { message: string }) => {
         const sender = users.getUserById(socket.id);
         io.emit("new-message", { message, user: sender });
+    });
+
+    socket.on("typing", () => {
+        users.modfiyUserById(socket.id, { isTyping: true });
+        emitWhoIsOnline();
+    });
+
+    socket.on("stop-typing", () => {
+        users.modfiyUserById(socket.id, { isTyping: false });
+        emitWhoIsOnline();
     });
 });
 

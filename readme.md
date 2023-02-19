@@ -6,7 +6,6 @@ Features:
 - Broadcast a message to connected users when someone connects or disconnects ✅
 - Support messaging ✅
 - Add support for username ✅
-- Add “{user} is typing” functionality
-- Support multiple typing tracker
-- Show who’s online
-- Add private messaging
+- Add “{user} is typing” functionality ✅
+- Support multiple typing tracker ✅
+- Show who’s online ✅
